@@ -1,38 +1,182 @@
 <!DOCTYPE html>
-</html>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f8ff;
-        color: #333;
-        margin: 0;
-        padding: 0;
-    }
-    h1 {
-        color: #2e8b57;
-    }
-    p {
-        font-size: 18px;
-    }
-    footer {
-        text-align: center;
-        margin-top: 20px;
-        padding: 10px;
-        background-color: #2e8b57;
-        color: white;
-    }
-    a {
-        color: #ffffff;
-        text-decoration: none;
-    }
-    a:hover {
-        text-decoration: underline;
-    }
-</style>
+<html>
+<head>
+    <title>Quinn Caton's Portfolio</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('brutalist0.jpg'); /* Replace with your image path */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-repeat: no-repeat; /* Prevents tiling */
+            background-position: left center; /* Positions the building to the left */
+            color: #ffffff; /* Light text for contrast */
+            margin: 0;
+            padding-left: 100px; /* Pushes content left to balance with the image */
+            position: relative; /* Allows pseudo-elements to layer */
+        }
 
-<footer>
-    <p>Created with ❤️ by Quinn Caton</p>
-    <p>
-        <a href="https://github.com/Quinn-Caton" target="_blank">Visit my GitHub</a>
-    </p>
-</footer>
+        /* Overlay to darken the background image */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Black overlay with 90% opacity */
+            z-index: -1; /* Places the overlay behind all content */
+        }
+
+        /* Vertical lines with animation */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 10%; /* First line position */
+            width: 2px;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 1;
+            animation: pulse 2s infinite; /* Adds the pulsing effect */
+        }
+
+        /* Second line with animation */
+        .line {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 5%; /* Second line position */
+            width: 2px;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 1;
+            animation: pulse 2s infinite; /* Same pulsing effect */
+        }
+
+        /* Keyframes for pulsing */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scaleX(1); /* Normal size */
+            }
+            50% {
+                transform: scaleX(7); /* Slightly longer */
+            }
+        }
+
+        /* Mobile responsiveness: hide vertical lines on small screens */
+        @media (max-width: 768px) {
+            body::after, .line {
+                display: none;
+            }
+        }
+
+        h1 {
+            color: #ffffff;
+        }
+
+        #projects {
+            margin: 20px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+            border-radius: 10px;
+            font-size: 28px;
+            color: #ffffff; /* Ensures text is readable */
+        }
+        #projects h3 {
+            font-size: 22px; /* Example size for project titles */
+        }
+        
+        #projects h3 a {
+            color: #cccccc;
+        }
+        #projects p {
+            font-size: 16px; /* Example size for descriptions */
+        }
+
+        #projects h3 a:hover {
+            color: #ffffff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.8); /* Footer blends with brutalist tones */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <section id="projects">
+        <h2>My Github Projects</h2>
+    </section>
+
+    <footer>
+        <p>Created with <span class="tech-symbol">&lt;/&gt;</span> by Quinn Caton</p>
+        <p>
+            <a href="https://github.com/Quinn-Caton" target="_blank">Visit my GitHub</a>
+        </p>
+    </footer>
+    
+    <style>
+        /* Fading text animation */
+        @keyframes fade {
+            0%, 100% {
+                opacity: 1; /* Fully visible */
+            }
+            50% {
+                opacity: 0.4; /* Partially faded */
+            }
+        }
+    
+        .tech-symbol {
+            font-weight: bold;
+            color: #2e8b57; /* Green tech-inspired accent */
+            animation: fade 2s infinite; /* Fading effect */
+        }
+    
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.8); /* Footer matches brutalist tones */
+            color: white;
+        }
+    
+        a {
+            color: #ffffff; /* Ensure contrast for links */
+            text-decoration: none;
+        }
+    
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>    
+    
+
+    <div class="line"></div> <!-- Add this for the second line -->
+
+    <script>
+        /* Fetching GitHub repositories dynamically */
+        fetch('https://api.github.com/users/Quinn-Caton/repos')
+            .then(response => response.json())
+            .then(data => {
+                const projectsContainer = document.getElementById('projects');
+                data.forEach(repo => {
+                    const project = document.createElement('div');
+                    project.innerHTML = `
+                        <h3><a href="${repo.html_url}" target="_blank">${repo.name}</a></h3>
+                        <p>${repo.description || 'No description available'}</p>
+                    `;
+                    projectsContainer.appendChild(project);
+                });
+            })
+            .catch(error => console.error('Error fetching repositories:', error));
+    </script>
+
+</body>
+</html>
+
+
